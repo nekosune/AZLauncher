@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleGetInfoString</key>
-    <string>FTB Launcher</string>
+    <string>AZ Launcher</string>
     <key>CFBundleExecutable</key>
-    <string>FTBLauncher</string>
+    <string>AZLauncher</string>
     <key>CFBundleIdentifier</key>
     <string>com.feed-the-beast.ftblauncher</string>
     <key>CFBundleName</key>
-    <string>FTBLauncher</string>
+    <string>AZLauncher</string>
     <key>CFBundleShortVersionString</key>
     <string>##VERSION##</string>
     <key>CFBundleInfoDictionaryVersion</key>

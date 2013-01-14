@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.ftb</groupId>
-  <artifactId>FTB_Launcher</artifactId>
-  <version>1.1.9</version>
+  <artifactId>AZLauncher</artifactId>
+  <version>1.2.2</version>
   <packaging>jar</packaging>
   <properties>
     <buildNumber>0</buildNumber>
@@ -13,8 +13,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>FTB Launcher</name>
-  <url>https://github.com/Slowpoke101/FTBLaunch</url>
+  <name>AZLauncher</name>
+  <url>https://github.com/nekosune/AZLauncher</url>
 
   <build>
     <defaultGoal>clean install package</defaultGoal>
