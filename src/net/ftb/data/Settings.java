@@ -30,7 +30,7 @@ public class Settings extends Properties {
 
 	static {
 		try {
-			settings = new Settings(new File(OSUtils.getDynamicStorageLocation(), "ftblaunch.cfg"));
+			settings = new Settings(new File(OSUtils.getDynamicStorageLocation(), "azlaunch.cfg"));
 		} catch (IOException e) {
 			Logger.logError("Failed to load settings", e);
 		}
@@ -51,7 +51,7 @@ public class Settings extends Properties {
 
 	public void save() {
 		try {
-			store(new FileOutputStream(configFile), "FTBLaunch Config File");
+			store(new FileOutputStream(configFile), "AZLaunch Config File");
 		} catch (IOException e) {
 			Logger.logError("Failed to save settings", e);
 		}

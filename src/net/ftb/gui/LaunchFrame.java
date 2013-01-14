@@ -99,7 +99,7 @@ public class LaunchFrame extends JFrame {
 	private static LaunchFrame instance = null;
 	private static String version = "1.2.2";
 	private static final long serialVersionUID = 1L;
-
+	public static final String DropBoxBase="dl.dropbox.com/u/18912303/AZModpack/";
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
 	protected static UserManager userManager;
@@ -109,7 +109,7 @@ public class LaunchFrame extends JFrame {
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 119;
+	public static int buildNumber = 122;
 	public static boolean noConfig = false;
 	public static LauncherConsole con;
 	public static String tempPass = "";

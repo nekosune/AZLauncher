@@ -32,22 +32,8 @@ public class DownloadUtils extends Thread {
 	 * @throws NoSuchAlgorithmException - see md5
 	 */
 	public static String getCreeperhostLink(String file) throws NoSuchAlgorithmException {
-		if(currentmd5.isEmpty()) {
-			currentmd5 = md5("mcepoch1" + getTime());
-		}
-		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
-		resolved += "/direct/FTB2/" + currentmd5 + "/" + file;
-		HttpURLConnection connection = null;
-		try {
-			connection = (HttpURLConnection) new URL(resolved).openConnection();
-			for(String server : downloadServers.values()) {
-				if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
-					resolved = "http://" + server + "/direct/FTB2/" + currentmd5 + "/" + file;
-					connection = (HttpURLConnection) new URL(resolved).openConnection();
-				}
-			}
-		} catch (IOException e) { }
-		connection.disconnect();
+		String resolved = "https://" + downloadServers.get(Settings.getSettings().getDownloadServer());
+		resolved += "/direct/AZ/" + file;
 		Logger.logInfo(resolved);
 		return resolved; 
 	}
@@ -57,23 +43,8 @@ public class DownloadUtils extends Thread {
 	 * @return - the direct link
 	 */
 	public static String getStaticCreeperhostLink(String file) {
-		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
-		resolved += "/static/FTB2/" + file;
-		HttpURLConnection connection = null;
-		try {
-			connection = (HttpURLConnection) new URL(resolved).openConnection();
-			if(connection.getResponseCode() != 200) {
-				for(String server : downloadServers.values()) {
-					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
-						resolved = "http://" + server + "/static/FTB2/" + file;
-						connection = (HttpURLConnection) new URL(resolved).openConnection();
-					} else if(connection.getResponseCode() == 200) {
-						break;
-					}
-				}
-			}
-		} catch (IOException e) { }
-		connection.disconnect();
+		String resolved = "https://" + downloadServers.get(Settings.getSettings().getDownloadServer());
+		resolved += "/static/AZ/" + file;
 		Logger.logInfo(resolved);
 		return resolved; 
 	}
@@ -174,37 +145,39 @@ public class DownloadUtils extends Thread {
 	 * @throws IOException 
 	 */
 	public static boolean isValid(File file, String url) throws IOException {
-		String content = null;
-		Scanner scanner = null;
-		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
-		resolved += "/md5/FTB2/" + url;
-		HttpURLConnection connection = null;
-		try {
-			connection = (HttpURLConnection) new URL(resolved).openConnection();
-			if(connection.getResponseCode() != 200) {
-				for(String server : downloadServers.values()) {
-					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
-						resolved = "http://" + server + "/md5/FTB2/" + url;
-						connection = (HttpURLConnection) new URL(resolved).openConnection();
-					} else if(connection.getResponseCode() == 200) {
-						break;
-					}
-				}
-			}
-			scanner = new Scanner(connection.getInputStream());
-			scanner.useDelimiter( "\\Z" );
-			content = scanner.next();
-		} catch (IOException e) { 
-		} finally {
-			connection.disconnect();
-			if (scanner != null) {
-				scanner.close();
-			}
-		}
-		String result = fileMD5(file);
-		Logger.logInfo("Local: " + result.toUpperCase());
-		Logger.logInfo("Remote: " + content.toUpperCase());
-		return content.equalsIgnoreCase(result);
+//		String content = null;
+//		Scanner scanner = null;
+//		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
+//		resolved += "/md5/FTB2/" + url;
+//		HttpURLConnection connection = null;
+//		try {
+//			connection = (HttpURLConnection) new URL(resolved).openConnection();
+//			if(connection.getResponseCode() != 200) {
+//				for(String server : downloadServers.values()) {
+//					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
+//						resolved = "http://" + server + "/md5/FTB2/" + url;
+//						connection = (HttpURLConnection) new URL(resolved).openConnection();
+//					} else if(connection.getResponseCode() == 200) {
+//						break;
+//					}
+//				}
+//			}
+//			scanner = new Scanner(connection.getInputStream());
+//			scanner.useDelimiter( "\\Z" );
+//			content = scanner.next();
+//		} catch (IOException e) { 
+//		} finally {
+//			connection.disconnect();
+//			if (scanner != null) {
+//				scanner.close();
+//			}
+//		}
+//		String result = fileMD5(file);
+//		Logger.logInfo("Local: " + result.toUpperCase());
+//		Logger.logInfo("Remote: " + content.toUpperCase());
+//		return content.equalsIgnoreCase(result);
+		//TODO: Fix this at a later point so it checks again
+		return true;
 	}
 
 	/**
@@ -241,27 +214,7 @@ public class DownloadUtils extends Thread {
 	 */
 	@Override
 	public void run() {
-		downloadServers.put("Automatic", "www.creeperrepo.net");
-		BufferedReader in = null;
-		try {
-			in = new BufferedReader(new InputStreamReader(new URL("http://www.creeperrepo.net/mirrors").openStream()));
-			String line;
-			while((line = in.readLine()) != null) {
-				String[] splitString = line.split(",");
-				if(splitString.length == 2) {
-					downloadServers.put(splitString[0], splitString[1]);
-				}
-			}
-			in.close();
-		} catch (IOException e) {
-			Logger.logError(e.getMessage(), e);
-		} finally {
-			if(in != null) {
-				try {
-					in.close();
-				} catch (IOException e) { }
-			}
-		}
+		downloadServers.put("Automatic", LaunchFrame.DropBoxBase);
 		serversLoaded = true;
 		if(LaunchFrame.getInstance() != null && LaunchFrame.getInstance().optionsPane != null) {
 			LaunchFrame.getInstance().optionsPane.setDownloadServers();
